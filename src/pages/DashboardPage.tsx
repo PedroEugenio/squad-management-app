@@ -1,6 +1,8 @@
-import { Users, BarChart3, Trophy, ActivitySquare } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Users, BarChart3, Trophy, ActivitySquare, CalendarDays, MapPin, ArrowRight } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 const STATS = [
   { label: 'Active Athletes', value: '34', trend: '+2', icon: Users, color: 'text-blue-500' },
@@ -18,12 +20,43 @@ const RECENT_ACTIVITY = [
 ]
 
 export default function DashboardPage() {
+  const navigate = useNavigate()
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">Season 2025/26 — Week 22. Here's your team overview.</p>
       </div>
+
+      {/* Callup reminder */}
+      <Card className="border-amber-400/40 bg-amber-50/50 dark:bg-amber-950/20">
+        <CardContent className="pt-5 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <CalendarDays className="h-4 w-4 text-amber-600" />
+                <span className="text-sm font-semibold text-amber-700 dark:text-amber-400">Next Match — Action Required</span>
+              </div>
+              <p className="text-base font-bold">vs FC Porto</p>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <CalendarDays className="h-3 w-3" />
+                  Sunday, 8 March 2026 · 18:00
+                </span>
+                <span className="flex items-center gap-1">
+                  <MapPin className="h-3 w-3" />
+                  Estádio do Dragão · Away
+                </span>
+              </div>
+            </div>
+            <Button onClick={() => navigate('/callup')} className="shrink-0 gap-2">
+              Set Callup
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

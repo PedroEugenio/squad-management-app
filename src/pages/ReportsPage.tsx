@@ -1,18 +1,13 @@
+import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { FileText, Download } from 'lucide-react'
-
-const REPORTS = [
-  { name: 'Match Report — FC Porto 2:1', date: 'Mar 2, 2026', status: 'Ready', type: 'Match' },
-  { name: 'Weekly Training Load Summary', date: 'Mar 1, 2026', status: 'Ready', type: 'Training' },
-  { name: 'Injury Assessment — A. Costa', date: 'Feb 27, 2026', status: 'Processing', type: 'Medical' },
-  { name: 'Scouting — R. Oliveira (Braga)', date: 'Feb 24, 2026', status: 'Ready', type: 'Scouting' },
-  { name: 'March Fixture & Travel Plan', date: 'Feb 20, 2026', status: 'Ready', type: 'Planning' },
-  { name: 'Mid-Season Performance Review', date: 'Jan 31, 2026', status: 'Processing', type: 'Performance' },
-]
+import { ALL_REPORTS } from '@/pages/ReportDetailPage'
 
 export default function ReportsPage() {
+  const navigate = useNavigate()
+
   return (
     <div className="space-y-6">
       <div>
@@ -26,8 +21,12 @@ export default function ReportsPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {REPORTS.map((r) => (
-              <div key={r.name} className="flex items-center justify-between gap-4 rounded-lg border p-3">
+            {ALL_REPORTS.map((r) => (
+              <div
+                key={r.name}
+                className="flex items-center justify-between gap-4 rounded-lg border p-3 hover:bg-muted/40 transition-colors cursor-pointer"
+                onClick={() => navigate(`/reports/${r.id}`, { state: { report: r } })}
+              >
                 <div className="flex items-center gap-3">
                   <FileText className="h-5 w-5 text-muted-foreground shrink-0" />
                   <div>
@@ -35,7 +34,7 @@ export default function ReportsPage() {
                     <p className="text-xs text-muted-foreground">{r.date}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                   <Badge variant="outline">{r.type}</Badge>
                   <Badge variant={r.status === 'Ready' ? 'default' : 'secondary'}>
                     {r.status}

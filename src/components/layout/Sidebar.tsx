@@ -10,6 +10,7 @@ import {
   Shirt,
   CalendarDays,
   Trophy,
+  ClipboardList,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -31,6 +32,7 @@ const NAV_ITEMS = [
       { to: '/squad', label: 'Squad', icon: Shirt },
       { to: '/practices', label: 'Practices', icon: CalendarDays },
       { to: '/matches', label: 'Matches', icon: Trophy },
+      { to: '/callup', label: 'Callup', icon: ClipboardList },
       { to: '/users', label: 'Staff', icon: Users, badge: '7' },
     ],
   },

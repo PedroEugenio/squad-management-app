@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { type Practice, INITIAL_PRACTICES } from '@/pages/PracticesPage'
+import { INITIAL_PLAYERS } from '@/pages/SquadPage'
+import EvaluationSection from '@/components/evaluations/EvaluationSection'
 
 const TYPE_VARIANT: Record<string, 'default' | 'secondary' | 'outline'> = {
   Tactical: 'default',
@@ -136,6 +138,12 @@ export default function PracticeDetailPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Evaluations */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Evaluations</h2>
+        <EvaluationSection players={INITIAL_PLAYERS} context="practice" />
+      </div>
     </div>
   )
 }

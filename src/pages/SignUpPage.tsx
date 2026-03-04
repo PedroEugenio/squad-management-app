@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -54,45 +54,59 @@ const SOCIAL_PROVIDERS = [
   },
 ]
 
-export default function LoginPage() {
-  const { login, loginWithProvider } = useAuth()
+export default function SignUpPage() {
+  const { register, loginWithProvider } = useAuth()
   const navigate = useNavigate()
 
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
   const [loading, setLoading] = useState(false)
   const [socialLoading, setSocialLoading] = useState<string | null>(null)
   const [error, setError] = useState('')
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const passwordsMatch = confirmPassword === '' || password === confirmPassword
+
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.')
+      return
+    }
     setError('')
     setLoading(true)
     try {
-      await login(email, password)
+      await register(fullName.trim(), email.trim(), password)
       navigate('/dashboard')
     } catch {
-      setError('Invalid credentials. Please try again.')
+      setError('Failed to create account. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleSocialLogin = async (provider: 'google' | 'github' | 'microsoft') => {
+  const handleSocialSignUp = async (provider: 'google' | 'github' | 'microsoft') => {
     setError('')
     setSocialLoading(provider)
     try {
       await loginWithProvider(provider)
       navigate('/dashboard')
     } catch {
-      setError('Social login failed. Please try again.')
+      setError('Social sign-up failed. Please try again.')
     } finally {
       setSocialLoading(null)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/40 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-muted/40 px-4 py-8">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-2">
@@ -103,19 +117,19 @@ export default function LoginPage() {
               <span className="text-xl font-bold">SportManager</span>
             </div>
           </div>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Sign in to access your club management portal</CardDescription>
+          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardDescription>Join your club management portal today</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {/* Social Login Buttons */}
+          {/* Social Sign-Up Buttons */}
           <div className="grid grid-cols-3 gap-2">
             {SOCIAL_PROVIDERS.map((p) => (
               <Button
                 key={p.id}
                 variant="outline"
                 className="w-full"
-                onClick={() => handleSocialLogin(p.id)}
+                onClick={() => handleSocialSignUp(p.id)}
                 disabled={loading || !!socialLoading}
               >
                 {socialLoading === p.id ? (
@@ -130,12 +144,25 @@ export default function LoginPage() {
 
           <div className="flex items-center gap-2">
             <Separator className="flex-1" />
-            <span className="text-xs text-muted-foreground">or continue with</span>
+            <span className="text-xs text-muted-foreground">or sign up with email</span>
             <Separator className="flex-1" />
           </div>
 
-          {/* Email/Password Form */}
-          <form onSubmit={handleLogin} className="space-y-3">
+          {/* Registration Form */}
+          <form onSubmit={handleSignUp} className="space-y-3">
+            <div className="space-y-1">
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input
+                id="fullName"
+                type="text"
+                placeholder="James Hartley"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                disabled={loading || !!socialLoading}
+              />
+            </div>
+
             <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -148,46 +175,91 @@ export default function LoginPage() {
                 disabled={loading || !!socialLoading}
               />
             </div>
+
             <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <a href="#" className="text-xs text-primary hover:underline">
-                  Forgot password?
-                </a>
+              <Label htmlFor="password">Password</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Min. 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={loading || !!socialLoading}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  tabIndex={-1}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading || !!socialLoading}
-              />
             </div>
 
-            {error && (
-              <p className="text-sm text-destructive">{error}</p>
-            )}
+            <div className="space-y-1">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  type={showConfirm ? 'text' : 'password'}
+                  placeholder="Re-enter your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  disabled={loading || !!socialLoading}
+                  className={`pr-10 ${!passwordsMatch ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  tabIndex={-1}
+                  aria-label={showConfirm ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {!passwordsMatch && (
+                <p className="text-xs text-destructive">Passwords do not match.</p>
+              )}
+            </div>
 
-            <Button type="submit" className="w-full" disabled={loading || !!socialLoading}>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading || !!socialLoading || !passwordsMatch}
+            >
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Signing in…
+                  Creating account…
                 </>
               ) : (
-                'Sign In'
+                'Create Account'
               )}
             </Button>
+
+            <p className="text-xs text-center text-muted-foreground">
+              By creating an account you agree to our{' '}
+              <a href="#" className="text-primary hover:underline">Terms of Service</a>
+              {' '}and{' '}
+              <a href="#" className="text-primary hover:underline">Privacy Policy</a>.
+            </p>
           </form>
         </CardContent>
 
         <CardFooter className="justify-center">
           <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{' '}
-            <Link to="/signup" className="text-primary hover:underline font-medium">
-              Sign up
+            Already have an account?{' '}
+            <Link to="/login" className="text-primary hover:underline font-medium">
+              Sign in
             </Link>
           </p>
         </CardFooter>

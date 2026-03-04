@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { type Match, INITIAL_MATCHES } from '@/pages/MatchesPage'
+import { INITIAL_PLAYERS } from '@/pages/SquadPage'
+import EvaluationSection from '@/components/evaluations/EvaluationSection'
 
 const RESULT_VARIANT: Record<string, 'default' | 'secondary' | 'outline' | 'destructive'> = {
   Win: 'default',
@@ -144,6 +146,12 @@ export default function MatchDetailPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Evaluations */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Evaluations</h2>
+        <EvaluationSection players={INITIAL_PLAYERS} context="match" />
+      </div>
     </div>
   )
 }
