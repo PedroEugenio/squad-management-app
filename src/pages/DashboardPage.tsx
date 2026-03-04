@@ -3,6 +3,8 @@ import { Users, BarChart3, Trophy, ActivitySquare, CalendarDays, MapPin, ArrowRi
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import WeekCalendar from '@/components/practices/WeekCalendar'
+import { INITIAL_PRACTICES } from '@/pages/PracticesPage'
 
 const STATS = [
   { label: 'Active Athletes', value: '34', trend: '+2', icon: Users, color: 'text-blue-500' },
@@ -57,6 +59,9 @@ export default function DashboardPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Weekly practices */}
+      <WeekCalendar practices={INITIAL_PRACTICES} compact />
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

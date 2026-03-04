@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Pencil, Trash2, CalendarDays, Clock, Eye } from 'lucide-react'
+import WeekCalendar from '@/components/practices/WeekCalendar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -106,6 +107,11 @@ export default function PracticesPage() {
           <Plus className="mr-2 h-4 w-4" /> New Session
         </Button>
       </div>
+
+      <WeekCalendar
+        practices={practices}
+        onSessionClick={(p) => setPreview(p)}
+      />
 
       <Card>
         <CardHeader>
