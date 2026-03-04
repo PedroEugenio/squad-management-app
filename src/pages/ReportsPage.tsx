@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { FileText, Download } from 'lucide-react'
+import { FileText, Download, Plus } from 'lucide-react'
 import { ALL_REPORTS } from '@/pages/ReportDetailPage'
 
 export default function ReportsPage() {
@@ -10,9 +10,14 @@ export default function ReportsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Reports</h1>
-        <p className="text-muted-foreground">Match, training, medical and scouting reports</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Reports</h1>
+          <p className="text-muted-foreground">Match, training, medical and scouting reports</p>
+        </div>
+        <Button onClick={() => navigate('/reports/new/match')} className="gap-1.5 shrink-0">
+          <Plus className="h-4 w-4" /> New Match Report
+        </Button>
       </div>
 
       <Card>

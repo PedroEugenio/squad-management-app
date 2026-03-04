@@ -1,5 +1,5 @@
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, MapPin, Trophy, CalendarDays, Clock } from 'lucide-react'
+import { ArrowLeft, MapPin, Trophy, CalendarDays, Clock, FileText } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -44,9 +44,14 @@ export default function MatchDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Button variant="ghost" className="-ml-2" onClick={() => navigate('/matches')}>
-        <ArrowLeft className="h-4 w-4 mr-2" /> Back to Matches
-      </Button>
+      <div className="flex items-center justify-between">
+        <Button variant="ghost" className="-ml-2" onClick={() => navigate('/matches')}>
+          <ArrowLeft className="h-4 w-4 mr-2" /> Back to Matches
+        </Button>
+        <Button variant="outline" className="gap-1.5" onClick={() => navigate('/reports/new/match', { state: { matchId: match.id } })}>
+          <FileText className="h-4 w-4" /> Create Report
+        </Button>
+      </div>
 
       {/* Hero */}
       <Card>

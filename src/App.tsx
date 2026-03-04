@@ -18,6 +18,7 @@ import StaffDetailPage from '@/pages/StaffDetailPage'
 import MatchDetailPage from '@/pages/MatchDetailPage'
 import PracticeDetailPage from '@/pages/PracticeDetailPage'
 import CallupPage from '@/pages/CallupPage'
+import CreateMatchReportPage from '@/pages/CreateMatchReportPage'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/reports/new/match" element={<CreateMatchReportPage />} />
           <Route path="/reports/:id" element={<ReportDetailPage />} />
           <Route path="/squad" element={<SquadPage />} />
           <Route path="/squad/:id" element={<PlayerDetailPage />} />
