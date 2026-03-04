@@ -1,73 +1,100 @@
-# React + TypeScript + Vite
+# SportManager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern sports club management web application built with React 19, TypeScript, Vite, Tailwind CSS v4, and shadcn/ui.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Screenshots
 
-## React Compiler
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> Season overview with a next-match reminder, weekly calendar strip, key stats cards (active athletes, matches played, win rate, injuries), and recent activity feed.
 
-## Expanding the ESLint configuration
+### Squad
+![Squad](docs/screenshots/squad.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+> Full player roster with jersey number, position, nationality, age, and fitness status (Fit / Injured / Doubtful). Inline edit and delete actions, plus an Add Player flow.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Performance Analytics
+![Performance Analytics](docs/screenshots/analytics.png)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+> Live performance charts — goals scored vs. conceded per matchweek, results breakdown, pass accuracy trends, and possession split — powered by Recharts.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Features
+
+| Area | Details |
+|---|---|
+| **Auth** | Login and sign-up pages with a protected-route layout |
+| **Dashboard** | Weekly calendar, next-match callup reminder, season KPI cards |
+| **Squad** | Player list, player detail page, 1–5 star evaluations with per-match stats (goals, assists, faults, cards, minutes) |
+| **Practices** | Week calendar with session chips, expand to full monthly modal view, practice detail with evaluation |
+| **Matches** | Match list, match detail with score hero, notes, and evaluation section; "Create Report" shortcut |
+| **Reports** | Report list with type/status badges, rich detail pages, and a **Create Match Report** form |
+| **Callup** | Select players and staff for the next match, confirm callup |
+| **Staff** | Staff roster with role and contact details |
+| **Performance** | Four analytics charts (goals, results, pass accuracy, possession) |
+| **Profile / Settings** | User profile and app settings pages |
+
+---
+
+## Tech Stack
+
+- **React 19** + **TypeScript**
+- **Vite 6** (dev server & build)
+- **Tailwind CSS v4** via `@tailwindcss/vite`
+- **shadcn/ui** — new-york style, slate base, CSS variables
+- **React Router v6** — client-side routing
+- **Recharts** — performance charts
+- **Lucide React** — icon library
+
+---
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start the dev server
+npm run dev
+
+# Type-check
+npx tsc --noEmit
+
+# Production build
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app runs at **http://localhost:5173** by default.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
+
+```
+src/
+├── assets/
+├── components/
+│   ├── evaluations/     # EvaluationSection (stars + match stats)
+│   ├── layout/          # DashboardLayout, Header, Sidebar
+│   ├── practices/       # WeekCalendar, MonthCalendarModal
+│   └── ui/              # shadcn/ui primitives
+├── contexts/
+│   └── AuthContext.tsx
+└── pages/
+    ├── AnalyticsPage.tsx
+    ├── CallupPage.tsx
+    ├── CreateMatchReportPage.tsx
+    ├── DashboardPage.tsx
+    ├── LoginPage.tsx / SignUpPage.tsx
+    ├── MatchDetailPage.tsx / MatchesPage.tsx
+    ├── PlayerDetailPage.tsx
+    ├── PracticeDetailPage.tsx / PracticesPage.tsx
+    ├── ReportDetailPage.tsx / ReportsPage.tsx
+    ├── SquadPage.tsx
+    ├── StaffDetailPage.tsx / UsersPage.tsx
+    └── ProfilePage.tsx / SettingsPage.tsx
 ```
