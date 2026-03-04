@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import WeekCalendar from '@/components/practices/WeekCalendar'
 import { INITIAL_PRACTICES } from '@/pages/PracticesPage'
+import { INITIAL_MATCHES } from '@/pages/MatchesPage'
 
 const STATS = [
   { label: 'Active Athletes', value: '34', trend: '+2', icon: Users, color: 'text-blue-500' },
@@ -61,7 +62,7 @@ export default function DashboardPage() {
       </Card>
 
       {/* Weekly practices */}
-      <WeekCalendar practices={INITIAL_PRACTICES} compact />
+      <WeekCalendar practices={INITIAL_PRACTICES} matches={INITIAL_MATCHES} compact />
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

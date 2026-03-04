@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Pencil, Trash2, CalendarDays, Clock, Eye } from 'lucide-react'
 import WeekCalendar from '@/components/practices/WeekCalendar'
+import { INITIAL_MATCHES } from '@/pages/MatchesPage'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -110,6 +111,7 @@ export default function PracticesPage() {
 
       <WeekCalendar
         practices={practices}
+        matches={INITIAL_MATCHES}
         onSessionClick={(p) => setPreview(p)}
       />
 
